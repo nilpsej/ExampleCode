@@ -1,0 +1,1248 @@
+<?xml version="1.0"?>
+<robot name="hinowa"> 
+<!--
+ <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <origin rpy="1.57071 0 0"/>
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+-->
+<!-- uncomment for reference to aruco_mapping topic -->
+
+<!--
+ <link name="camera_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.160 0.105 0.170"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.160 0.105 0.170"/>
+      </geometry>
+    </visual>
+ </link>
+
+ <joint name="dummy_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="1.57071 1.57071 0"/>
+    <parent link="dummy"/>
+    <child link="camera_link"/>
+ </joint>
+
+ <joint name="camera_joint" type="fixed">
+    <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+    <parent link="camera_link"/>
+    <child link="base_link"/>
+ </joint>
+-->
+<!-- rpy="1.57071 1.57071 0"/>  (commented alt for camera_joint origin)-->
+
+  <link name="anchor"/>
+
+ <joint name="anchor_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/> <!-- check these distances -->
+    <parent link="anchor"/>
+    <child link="base_link"/>
+ </joint>
+
+<!--ALL OTHER URDF MODELLING -->
+  <link name="base_link">
+    <visual>
+	<origin xyz="0 0 0" rpy="1.57071 0 0"/>
+      <geometry>
+        <mesh filename="package://hinowa_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+	<origin xyz="0 0 0" rpy="1.57071 0 0"/>-->
+	<geometry>
+	  <mesh filename="package://hinowa_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+    </collision>
+    <!--
+      <inertial>
+      <origin xyz="0.54 -0.05591 0" rpy="0 0 0"/>
+      <mass value="500"/>
+      <inertia  ixx="100.521" ixy="0" ixz="0" iyy="160.77" iyz="0" izz="120.485"/>
+    </inertial>
+    -->
+  </link>
+
+  <link name="link_1">
+  <visual>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+<!--
+    <inertial>
+      <origin xyz="0.264481 0 0.275696" rpy="0 0 0"/>
+      <mass value="200"/>
+      <inertia  ixx="37.117" ixy="0" ixz="-30.283" iyy="75.104" iyz="0" izz="42.477"/>
+   </inertial>
+-->
+  </link>
+
+  <joint name="joint_1" type="revolute">
+    <origin xyz="0.0 0 0.583" rpy="0 0 -1.57071"/>
+    <limit lower="-2.61799" upper="2.61799" effort="100" velocity = "1.0" /> <!-- lower: -2.61799, upper 2.61799-->
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="link_1"/>
+  </joint>
+
+  <link name="link_2">
+  <visual>
+    <origin xyz="0.0 0.0 0.0" rpy="1.57071 0 -1.57071"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0.0 0.0 0.0" rpy="1.57071 0 -1.57071"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+<!--   
+      <inertial>
+      <origin xyz="-0.6 0 -0.1732" rpy="1.849963 0 -1.57071"/>
+      <mass value="100"/>
+      <inertia  ixx="21.542" ixy="0" ixz="0" iyy="20.448" iyz="5.968" izz="2.065"/> 
+   </inertial>
+-->
+  </link>
+<!--
+  <joint name="joint_2" type="revolute">
+    <origin xyz="0.565 0 0.795" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0" upper="1.22173" effort="100" velocity = "1.0" />
+    <parent link="link_1"/>
+    <child link="link_2"/>
+  </joint>
+-->
+  <joint name="joint_2" type="fixed">
+    <origin xyz="0.550224 0 0.767144" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity = "1.0" />
+    <parent link="link_1"/>
+    <child link="link_2"/>
+  </joint>
+
+  <link name="link_3">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+<!-- 
+  <inertial>
+      <origin xyz="0 0.076 0.071" rpy="0 0 0"/>
+      <mass value="100"/>
+      <inertia  ixx="10.873" ixy="0" ixz="0" iyy="2.1" iyz="-0.18" izz="10.1"/>
+  </inertial>
+-->
+  </link>
+
+<!--
+  <joint name="joint_3" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="-1.0665 0 -0.266" rpy="1.57071 0 -1.57071"/>
+    <limit lower="0" upper="1.1410209" effort="100" velocity = "1.0" />
+    <parent link="link_2"/>
+    <child link="link_3"/>
+    <mimic joint="joint_2"/>
+  </joint>
+-->
+
+  <joint name="joint_3" type="fixed">
+    <axis xyz="1 0 0"/>
+    <origin xyz="-1.067325 0 -0.266114" rpy="1.57071 0 -1.57071"/>
+    <limit effort="100" velocity = "1.0" />
+    <parent link="link_2"/>
+    <child link="link_3"/>
+  </joint>
+
+  <link name="link_4">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_4.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_4.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="joint_4" type="revolute">
+    <origin xyz="0 0.460 0.080"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.406735" effort="100" velocity = "1.0" />
+    <parent link="link_3"/>
+    <child link="link_4"/>
+  </joint>
+
+  <link name="link_5">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_5.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_5.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="joint_5" type="revolute">
+    <origin xyz="0 -0.661530 -2.307028" rpy="0 3.14159 3.14159"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="1.74159" upper="3.14159" effort="100" velocity = "1.0" /> <!--lower = 1.734855 (unrounded limits in .yaml)-->
+    <parent link="link_4"/>
+    <child link="link_5"/>
+    <mimic joint="joint_4" multiplier="-1" offset="3.14159"/>
+  </joint>
+
+  <link name="link_6">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_6.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_6.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="joint_6" type="revolute">
+    <origin xyz="0 0.750 -0.09" rpy="0 3.14159 3.14159"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="1.84" upper="3.14159" effort="100" velocity = "1.0" /><!-- 1.84132 -->
+    <parent link="link_5"/>
+    <child link="link_6"/>
+  </joint>
+
+
+  <link name="link_7">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_7_cable.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_7_cable.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="joint_7" type="prismatic">
+    <origin xyz="0 0 2.735" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="1.851" effort="100" velocity = "1.0" />
+    <parent link="link_6"/>
+    <child link="link_7"/>
+  </joint>
+
+  <link name="link_8">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_8.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_8_collision.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="joint_8" type="revolute">
+    <origin xyz="0 -0.07 0.05" rpy="0 0 0"/> <!-- 0 0.120 0.170 -->
+    <axis xyz="1 0 0"/>
+    <limit lower="0.174533" upper="1.57" effort="100" velocity = "1.0" /><!--0.150012--><!--0.13-->
+    <parent link="link_7"/>
+    <child link="link_8"/>
+  </joint>
+
+  <link name="link_9">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_9.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_9_collision.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+  <joint name="joint_9" type="revolute">
+    <origin xyz="0 0.223361 1.280668" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="-0.174533" effort="100" velocity = "1.0" />
+    <parent link="link_8"/>
+    <child link="link_9"/>
+    <mimic joint="joint_8" multiplier="-1" offset="0.0"/>-->
+  </joint>
+<!--
+  <link name="link_8_b">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_8_back.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_8_back.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+  <joint name="joint_8_b" type="revolute">
+    <origin xyz="0 -0.07 0.05" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.13" upper="1.57071" effort="100" velocity = "1.0" />
+    <parent link="link_7"/>
+    <child link="link_8_b"/>
+    <mimic joint="joint_8" multiplier="1" offset="0.0"/>
+  </joint>
+-->
+
+ <link name="end_bottom">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/end_bottom.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/end_bottom.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+ </link>
+
+  <joint name="joint_end_bottom" type="revolute">
+    <origin xyz="0 0.190 0.120" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57071" upper="1.17159" effort="100" velocity = "1.0" />
+    <parent link="link_9"/>
+    <child link="end_bottom"/>
+    <mimic joint="joint_6" multiplier="-1" offset="3.14159"/>-->
+  </joint>
+
+ <link name="end_middle">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/end_middle.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/end_middle.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+ </link>
+
+  <joint name="joint_end_middle" type="revolute">
+    <origin xyz="0 0.271 0.427353" rpy="0 1.57071 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.523599" upper="0.523599" effort="100" velocity = "1.0" />
+    <parent link="end_bottom"/>
+    <child link="end_middle"/>
+    <!-- <mimic joint="joint_1" multiplier="-1" offset="-1.57071"/> -->
+  </joint>
+
+ <link name="end_top">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/end_top.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/end_top.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+ </link>
+<!--
+  <joint name="joint_end_top" type="prismatic">
+    <origin xyz="0 0.04 0.855" rpy="0 3.14159 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.3" upper="0" effort="100" velocity = "1.0" />
+    <parent link="end_middle"/>
+    <child link="end_top"/>
+  </joint>
+-->
+  <joint name="joint_end_top" type="fixed">
+    <origin xyz="0 0.04 0.855" rpy="0 3.14159 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="100" velocity = "1.0" />
+    <parent link="end_middle"/>
+    <child link="end_top"/>
+    <!-- <mimic joint="joint_1" multiplier="-1" offset="-1.57071"/> -->
+  </joint>
+
+  <link name="end">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.01 0.01 0.01"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.0001 0.0001 0.0001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="end_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.63 0.113 0.855"/>
+    <parent link="end_top"/>
+    <child link="end"/>
+  </joint>
+
+
+
+<!-- cosmetic additions-->
+<!--
+
+-->
+<!--
+  <link name="link_4a">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_4a.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_4a.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="joint_4a" type="revolute">
+    <origin xyz="-0.155 -0.266742 -0.081551" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.57071" effort="100" velocity = "1.0" />
+    <parent link="link_5"/>
+    <child link="link_4a"/>
+    <mimic joint="joint_4" multiplier="1" offset="0"/>
+  </joint>
+
+<link name="link_4b">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_4a.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/link_4a.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="joint_4b" type="revolute">
+    <origin xyz="0.105 -0.266742 -0.081551" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.57071" effort="100" velocity = "1.0" />
+    <parent link="link_5"/>
+    <child link="link_4b"/>
+    <mimic joint="joint_4" multiplier="1" offset="0"/>
+  </joint>
+
+-->
+
+
+
+<!--
+  <link name="link_cable_carrier">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/cable_carrier_ext.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://hinowa_description/meshes/cable_carrier_ext.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+  <joint name="joint_cable_carrier" type="prismatic">
+    <origin xyz="0 0.360817 -1.554906" rpy="0 -1.57071 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1" effort="100" velocity = "1.0" />
+    <parent link="link_7"/>
+    <child link="link_cable_carrier"/>
+    <mimic joint="joint_7" multiplier="-0.5" offset="0"/>
+  </joint>
+-->
+
+<!--
+  <joint name="joint_9" type="revolute">
+    <origin xyz="0.0 0.225743 1.2825" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57071" upper="0" effort="10000000" velocity = "2.0" />
+    <parent link="link_8"/>
+    <child link="link_9"/>
+  </joint>
+-->
+<!--::::::::::::::::::::::::::::::::::aruco camera sensing (most recent)::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+ <link name="camera_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.160 0.105 0.170"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.160 0.105 0.170"/>
+      </geometry>
+    </visual>
+ </link>
+
+ <joint name="camera_joint" type="fixed">
+    <origin xyz="0 0 0.56" rpy="1.57071 0 0"/>
+    <parent link="end_bottom"/>
+    <child link="camera_link"/>
+ </joint>
+
+ <link name="camera_frame">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.0001" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001" />
+    </inertial>
+ </link>
+
+ <joint name="frame_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.56" rpy="-1.57071 3.14159 0"/>
+    <parent link="end_bottom"/>
+    <child link="camera_frame"/>
+ </joint>
+-->
+
+<!-- rpy="-1.57071 3.14159 0" - do not change these values -->
+<!--:::::::::::::::::::::::::::::::::::::::lidar::::::::::::::::::::::::::::::::::::::-->
+<!--
+  <joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0.03 -0.13125" rpy="0 0 0"/>
+    <parent link="arm_link_0"/>
+    <child link="hokuyo_link"/>
+  </joint>
+
+  <link name="hokuyo_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.05 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.05 0.1"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+-->
+<!--::::::::::::::::::::::::::::::::::::ArUco marker sensor::::::::::::::::::::::::::::-->
+<!--
+ <link name="camera2_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.0001" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001" />
+    </inertial>
+ </link>
+
+ <joint name="camera2_joint" type="fixed">
+    <origin xyz="-0.14 -0.025 0" rpy="3.14159 0 1.57071"/>
+    <parent link="end"/>
+    <child link="camera2_link"/>
+ </joint>
+
+ <link name="camera2_frame">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.0001" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001" />
+    </inertial>
+ </link>
+-->
+<!-- rpy="-1.57071 3.14159 0" - do not change these values -->
+<!--
+ <joint name="frame2_joint" type="fixed">
+    <origin xyz="-0.14 -0.025 0" rpy="-1.57071 3.14159 0"/>
+    <parent link="end"/>
+    <child link="camera2_frame"/>
+ </joint>
+-->
+<!--:::::::::::::::::::::::::::::::::sensors::::::::::::::::::::::::::::::::::::::-->
+<!--
+  <gazebo reference="camera2_link">
+    <sensor type="camera" name="camera">
+      <update_rate>30.0</update_rate>
+      <camera name="camera">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>/camera</cameraName>
+        <imageTopicName>/camera/image_raw</imageTopicName>
+        <cameraInfoTopicName>/camera/camera_info</cameraInfoTopicName>
+        <frameName>camera2_frame</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>	
+ </sensor>
+</gazebo>
+
+
+<gazebo reference="camera_link">
+  <sensor type="depth" name="depth_camera">
+      <always_on>true</always_on>
+      <update_rate>20.0</update_rate>
+      <camera>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <format>R8G8B8</format>
+          <width>800</width>
+          <height>800</height>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>50</far>
+        </clip>
+      </camera>
+      <plugin name="camera_link_controller" filename="libgazebo_ros_openni_kinect.so">
+        <baseline>0.2</baseline>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>depth_camera</cameraName>
+        <imageTopicName>/depth/image_raw</imageTopicName>
+        <cameraInfoTopicName>/depth/camera_info</cameraInfoTopicName>
+        <depthImageTopicName>/depth/image_raw</depthImageTopicName>
+        <depthImageInfoTopicName>/depth/camera_info</depthImageInfoTopicName>
+        <pointCloudTopicName>/depth/points</pointCloudTopicName>
+        <frameName>camera_frame</frameName>
+        <pointCloudCutoff>0.5</pointCloudCutoff>
+        <distortionK1>0.00000001</distortionK1>
+        <distortionK2>0.00000001</distortionK2>
+        <distortionK3>0.00000001</distortionK3>
+        <distortionT1>0.00000001</distortionT1>
+        <distortionT2>0.00000001</distortionT2>
+        <CxPrime>0</CxPrime>
+        <Cx>0</Cx>
+        <Cy>0</Cy>
+        <focalLength>0</focalLength>
+        <hackBaseline>0</hackBaseline>
+      </plugin>
+  </sensor>
+</gazebo>
+-->
+<!-- hokuyo 
+  <gazebo reference="hokuyo_link">
+    <sensor type="gpu_ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.570796</min_angle>
+            <max_angle>1.570796</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
+        <topicName>/arm_gazebo/laser/scan</topicName>
+        <frameName>hokuyo_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+-->
+<!--::::::::::::::::::::::::::::::Gazebo - Links::::::::::::::::::::::::::-->
+<!--
+<gazebo reference="base_link">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="link_1">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="link_2">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="link_3">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="link_4">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="link_5">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="link_6">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="link_7">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+
+<gazebo reference="link_8">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+-->
+
+
+<!--
+<gazebo reference="arm_link_3">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="arm_link_4">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="arm_link_5">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+ <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="arm_link_6">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="arm_link_7">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+-->
+<!--
+<gazebo reference="roller">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="end">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="camera_link">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="camera_frame">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="hokuyo_link">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="camera2_link">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="camera2_frame">
+  <selfCollide>0</selfCollide>
+  <kp>1000000.0</kp>
+  <kd>1.0</kd>
+  <mu1>0.8</mu1>
+  <mu2>0.8</mu2>
+  <maxVel>0.0</maxVel>
+  <minDepth>0.001</minDepth>
+</gazebo>
+-->
+<!--:::::::::::::::::::::::::::::Gazebo - Joints::::::::::::::::::::::::::::-->
+<!--
+<gazebo reference="world_joint">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="joint_1">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="joint_2">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="joint_3">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+
+<gazebo reference="joint_4">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="joint_5">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="joint_6">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="joint_7">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="joint_8">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+-->
+
+<!--
+<gazebo reference="end_joint">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="arm_joint_3">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="arm_joint_4">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="arm_joint_5">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="arm_joint_6">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+
+<gazebo reference="arm_joint_7">
+  <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+-->
+<!--:::::::::::::::::::::::::::Transmission::::::::::::::::::::::::::::::::::::-->
+<!--
+  <transmission name="tran_0">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="world_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_0">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+-->
+ <transmission name="tran_1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_1">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_1">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_2">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_2">  
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+<!--
+ <transmission name="tran_3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_3">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_3">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+-->
+ <transmission name="tran_4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_4">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_4">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+<!--
+ <transmission name="tran_5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_5">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_5">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+-->
+
+ <transmission name="tran_6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_6">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_6">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_7">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_7">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_7">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_8">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_8">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_8">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+-->
+<!--
+ <transmission name="tran_9">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="arm_joint_3">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_9">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_10">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="arm_joint_4">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_10">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_11">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="arm_joint_5">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_11">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_12">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="arm_joint_6">
+         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_12">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_13">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="arm_joint_7">
+         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_13">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+-->
+<!--
+ <transmission name="tran_14">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="roller_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_14">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+
+ <transmission name="tran_15">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="end_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_15">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+ </transmission>
+-->
+</robot>
+
+
+

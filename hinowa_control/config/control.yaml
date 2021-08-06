@@ -1,0 +1,21 @@
+CAN:
+        virtual: True
+
+surface:
+        painting_distance: 0.25 #distance from surface to paint at (machine should touch code when 0.0, any value here should be painting spec distance) (was 0.15)
+        direction: left #-1 is left, 1 is right.
+        height: 6.0 #could be replaced by another sensor, will be hardcoded for now
+        stopping_height: 1.2
+
+aruco:
+        initial_ID: 100
+        final_ID: 201
+        translation_align_tolerance: 0.1 #+- this value will be considered aligned with the X translation value of the target code. 
+        rotation_align_tolerance: 10.0 #+- this value will be considered parallel to the wall based on the vertical angle of the target code.
+
+data:
+        record: 0
+
+camera_filter:
+        threshold: 150 #0-255
+

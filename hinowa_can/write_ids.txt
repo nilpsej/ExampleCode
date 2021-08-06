@@ -1,0 +1,27 @@
+list of addresses that need to be written to on CAN
+
+#Base controls
+0x091 Stabiliser1
+0x092 Stabiliser2
+0x093 Left track
+0x094 Right track
+0x095 Stabiliser3
+0x096 Stabiliser4
+0x097 Track width (not really used)
+
+#Arm controls
+#0x101 is the trim function (locked)
+0x102 Joint 1
+0x103 Joint 4
+0x104 Joint 6
+0x105 Joint 7
+0x106 Joint 8
+
+#Valve block controls
+0x198 Bottom block heartbeat (for trajectory execution)
+0x199 Top block heartbeat (for trajectory execution)
+0x200 Toggle which block is active
+
+
+
+

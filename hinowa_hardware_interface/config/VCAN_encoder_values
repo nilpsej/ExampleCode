@@ -1,0 +1,53 @@
+VCAN ENCODER VALUES FOR HOME POSITION
+
+J1: 1803000000000000
+
+J4: 06ef000000000000
+
+J6: 036c000000000000
+
+J7: 2100000000000000
+
+J8: 04f2000000000000
+
+
+Process:
+
+e.g for linear encoder: J1
+
+1. Look at recorded home position in record_home.yaml: 0.792
+2. Look at readAngle function in joint.cpp, see that this value is the hex value divided by 1000 and converted to decimal
+3. Convert 792 to hex: https://www.rapidtables.com/convert/number/decimal-to-hex.html?x=876, which results in 318 where 3 is MSB
+4. Look at encoder doc for how data is sent from encoder: Byte1 is LSB
+5. B1 is 18, B2 is 03
+
+
+e.g for rotary encoder: J8
+1. As above: 126.6
+2. As avove: For rotary encoders the value is multiplied by 0.1 - 1266 is the original hex number we are after
+3. Convert it: https://www.rapidtables.com/convert/number/decimal-to-hex.html?x=1266, gives 04F2, where 04 is MSB
+4. Look at encoder doc for sending method, Byte1 is MSB
+5. B1 is 04, B2 is F2
+
+commands for utilising this...
+run the code once, itll fail but itll set up the CAN (alternatively, run the setup commands)
+1a. roslaunch hinowa_hardware_interface hinowa_position_controller.launch load_moveit:=true
+OR
+1b. "sudo ip link add dev vcan0 type vcan", followed by "sudo ip link set up vcan0"
+
+2. Setup generated messages for each RX address:
+the following three are bogus values, IDs relate to levelling which obviously wont matter for VCAN
+cangen vcan0 -g 5  -I 0x090 -D 0101010101010101 -L 8
+cangen vcan0 -g 5  -I 0x089 -D 0409010104090101 -L 8
+Joint Ids follow..
+cangen vcan0 -g 5  -I 0x181 -D 1703000000000000 -L 8. close to 90deg left: -D 7A04000000000000, close to 90deg right: -D b601000000000000 
+cangen vcan0 -g 5  -I 0x182 -D 05F205F200000000 -L 8
+cangen vcan0 -g 5  -I 0x183 -D 0BD60BD600000000 -L 8
+cangen vcan0 -g 5  -I 0x184 -D 1F00000000000000 -L 8
+cangen vcan0 -g 5  -I 0x185 -D 0AB50AB500000000 -L 8
+
+3. Run code, model will be in home pose. 
+
+
+
+

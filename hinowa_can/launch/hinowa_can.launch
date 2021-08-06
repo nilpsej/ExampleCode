@@ -1,0 +1,4 @@
+<launch>
+	<node name="can_rx" pkg="hinowa_can" type="can_rx_node" respawn="false" output="screen"></node>
+	<node name="can_tx" pkg="hinowa_can" type="can_tx_node" respawn="false" output="screen"></node>
+</launch>

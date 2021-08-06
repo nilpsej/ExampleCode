@@ -1,0 +1,5 @@
+<launch>
+	<include file="$(find hinowa_can)/launch/hinowa_can.launch">
+	</include>
+	<node name="hinowa_record_home" pkg="hinowa_record_home" type="hinowa_record_home_node" respawn="false" output="screen"></node>
+</launch>

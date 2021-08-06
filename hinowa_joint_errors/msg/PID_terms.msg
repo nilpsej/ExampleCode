@@ -1,0 +1,11 @@
+Header header
+string[] joint_names
+float64[] Pp_errors
+float64[] Pi_errors
+float64[] Pd_errors
+float64[] Vp_errors
+float64[] Vi_errors
+float64[] Vd_errors
+float64[] actual_accelerations
+float64[] acceleration_errors
+float32[] joint_commands

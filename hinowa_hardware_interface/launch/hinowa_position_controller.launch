@@ -1,0 +1,103 @@
+<launch>
+
+	<arg name="load_moveit" default="true"/>
+
+<group unless="$(arg load_moveit)">
+	<rosparam command="load" file="$(find hinowa_moveit)/config/joint_names.yaml"/>
+
+        <include file="$(find hinowa_moveit)/launch/planning_context.launch">
+        <arg name="load_robot_description" value="true" />
+        </include>
+</group>	
+
+	<rosparam file="$(find hinowa_hardware_interface)/config/record_home.yaml" command="load"/>
+	<rosparam file="$(find hinowa_control)/config/control.yaml" command="load"/>
+	
+	<include file="$(find hinowa_can)/launch/hinowa_can.launch" />
+
+	<!-- load moveit configuration -->
+	<group if="$(arg load_moveit)">
+		<include file="$(find hinowa_moveit)/launch/move_group.launch">
+			<arg name="allow_trajectory_execution" value="true"/>  
+			<arg name="fake_execution" value="false"/>
+			<arg name="info" value="true"/>
+			<arg name="debug" value="false"/>
+			<arg name="publish_monitored_planning_scene" value="true" />
+			<!--<arg name="pipeline" value="chomp" /> -->
+			<!--<arg name="pipeline" value="pilz_command_planner" />-->
+		</include>
+
+		<!-- run Rviz and load the default config to see the state of the move_group node -->
+		<include file="$(find hinowa_moveit)/launch/moveit_rviz.launch">
+			<arg name="config" value="true"/>
+			<arg name="debug" value="false"/>
+		</include>
+	</group>
+    
+
+<!-- hardware interface loading -->
+	<rosparam file="$(find hinowa_hardware_interface)/config/hardware.yaml" command="load"/>
+	<rosparam file="$(find hinowa_hardware_interface)/config/controllers.yaml" command="load"/>
+	<rosparam file="$(find hinowa_moveit)/config/joint_limits.yaml" command="load"/>
+	<node name="hinowa_hardware_interface" pkg="hinowa_hardware_interface" type="hinowa_hardware_interface_node" output="screen" args="-d $(find hinowa_hardware_interface)/src/hinowa_hardware_interface_node.cpp">
+		<remap from="/joint_states" to="/hinowa/joint_states" /> 
+	</node>
+	<group if="$(arg load_moveit)">		
+		<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/"
+			args="
+				/hinowa/joint_state_controller
+		    		/hinowa/joint_trajectory_controller
+	        	"/>
+	</group>
+	<group unless="$(arg load_moveit)">
+		<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/"
+			args="
+		    		/hinowa/joint_state_controller
+		    		/hinowa/controller/position/joint_1
+		    		/hinowa/controller/position/joint_4
+		    		/hinowa/controller/position/joint_6
+		    		/hinowa/controller/position/joint_7
+		    		/hinowa/controller/position/joint_8
+	        	"/>
+	</group>
+	
+
+<!--	
+		    	    /hinowa/controller/position/joint_2
+	 -->
+
+  
+
+   <!--joint and robot state publishers of the full robot description -->
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+		<rosparam command="load" file="$(find hinowa_hardware_interface)/config/initial_joints.yaml" />
+		<rosparam param="source_list">[/hinowa/joint_states]</rosparam>
+		<rosparam param="rate">250</rosparam>
+	</node>
+
+	  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="true" output="screen">
+    	<remap from="/joint_states" to="/joint_states" /> 
+   	</node>
+-->
+
+<!-- Control loop script -->
+
+<group if="$(eval arg('load_moveit'))">
+	<node name="control_loop" pkg="hinowa_control" type="control_loop" respawn="false" output="screen"></node> -->
+</group>
+
+<!-- Basler camera launch - make sure the aruco_mapping launch file refers to this camera topic and not usb_cam -->
+	<include file="$(find pylon_camera)/launch/pylon_camera_node.launch"/> --> 
+<!-- marker filter & recognition launcher -->
+	<include file="$(find aruco_mapping_filter)/launch/aruco_mapping_filter.launch"/> --> 
+        <include file="$(find aruco_mapping)/launch/aruco_mapping.launch"/> --> 
+
+	<node name="joystick" pkg="joy" type="joy_node" output="screen">
+		<rosparam param="dev">/dev/input/js0</rosparam>
+		<rosparam param="autorepeat_rate">41</rosparam> --> <!-- change to depend on actual looprate in hinowa_hwi/hardware.yaml-->
+	</node>
+
+	<include file="$(find camera_tf2)/launch/camera_tf2.launch" /> -->
+</launch>

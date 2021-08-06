@@ -1,0 +1,9 @@
+hinowa:
+  hardware_interface:
+     loop_hz: 30
+     joints:
+       - joint_1
+       - joint_4
+       - joint_6
+       - joint_7
+       - joint_8

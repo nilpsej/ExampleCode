@@ -1,0 +1,12 @@
+#zeros:
+#  joint_1: 0.000
+#  joint_4: 0.000
+#  joint_6: 0.000
+#change above to work with 3.14159
+#  joint_7: 0.000
+#  joint_8: 0.000
+#  joint_end_bottom: -1.57
+
+use_gui:
+  false
+

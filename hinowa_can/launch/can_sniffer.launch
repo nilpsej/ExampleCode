@@ -1,0 +1,3 @@
+<launch>
+	<node name="can_sniffer" pkg="hinowa_can" type="can_sniffer_node" respawn="false" output="screen"></node>
+</launch>

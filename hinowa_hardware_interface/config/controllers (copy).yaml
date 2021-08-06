@@ -1,0 +1,107 @@
+hinowa:
+  joint_trajectory_controller:
+      type: pos_vel_controllers/JointTrajectoryController
+#      joints: [joint_1,joint_2,joint_4,joint_6,joint_7,joint_8]
+      joints: [joint_1,joint_4,joint_6,joint_7,joint_8]
+      all_joints: [joint_1,joint_4,joint_5,joint_6,joint_7,joint_8,joint_9,joint_end_bottom,joint_end_middle,end_joint]
+      state_publish_rate: 250 #Frequency (in Hz) at which the controller state is published. 
+      stop_trajectory_duration: 0.1 #When starting the controller or canceling a trajectory, position hold mode is entered. This parameter specifies the time it takes to bring the current state (position and velocity) to a stop.
+
+
+#TEST ALL PARAMETERS IN HERE FOR FIXING OVERSHOOT AT END OF TRAJECTORY - check all moveit config files for related/overwriting settings. start withgoal time related stuff, try droping goal error constraints and diagnosing if/when/why it stops earlier than desired. 
+      constraints:
+         goal_time: 10.0 #If the timestamp of the goal trajectory point is t, then following the trajectory succeeds if it reaches the goal within t +/- goal_time, and aborts otherwise. 
+         stopped_velocity_tolerance: 0.0 #always have this set to 0 for velocity control to allow execution success w/o cutting plan
+         joint_1:
+            trajectory: 10.1 #0.05 #Position tolerance for a particular joint throughout the trajectory. If the joint position ever falls outside 				trajectory_position +/- tolerance, then the trajectory aborts. Not enforced if unspecified.
+            goal: 10.01 #0.005 #Position tolerance for a particular joint to reach the goal. When the joint is within goal_position +/- goal_tolerance, 				than the trajectory can succeed. Not enforced if unspecified
+         joint_4:
+            trajectory: 10.1 #0.1
+            goal: 10.01 #0.005
+         joint_6:
+            trajectory: 10.1 #0.1
+            goal: 10.01 #0.005
+         joint_7:
+            trajectory: 10.1 #0.1
+            goal: 10.01 #0.005 
+         joint_8:
+            trajectory: 10.1 #0.1
+            goal: 0.01 #0.005
+
+# TUNED JOINT VALUES SO FAR
+#1: Tf: 0.0 Pp: 0.0 Vp: 0.0 Vi: 0.0 Vff: 0.0 Aff: 0.0
+#4: Tf: 3.0 Pp: 2.2 Vp: 2.0 Vi: 800.0 Vff: 1.0 Aff: 1.0
+#6: Tf: 2.0 Pp: 2.1 Vp: 2.0 Vi: 800.0 Vff: 1.0 Aff: 0.5
+#7: Tf: 2.0 Pp: 1.0 Vp: 1.0 Vi: 50.0 Vff: 1.8 Aff: 0.0
+#8: Tf: 3.0 Pp: 1.9 Vp: 2.5 Vi: 100.0 Vff 1.0 Aff: 0.18
+
+
+
+#J7 Looks great, could use some acceleration feedforward to handle lag at the beginning. 
+
+#J8 looks pretty good on its own, but adding in Joint 7 movement simultaneously creates some overshoot at the end of the movement - not sure hoe this can be considered, may require inter joint disturbance considerations, or could just be scaling but a gain value somewhere.
+
+#velocity, cascade, feedforward
+      control_type: feedforward
+      Tf:
+              joint_1: 2.0
+              joint_4: 3.0
+              joint_6: 3.0
+              joint_7: 2.0 #2.0
+              joint_8: 4.0 #3.0
+
+      P_gains:
+              joint_1: {p: 0.0, i: 0.0, d: 0.00}
+              joint_4: {p: 0.0, i: 0.0, d: 0.00}
+              joint_6: {p: 0.0, i: 0.0, d: 0.00}
+              joint_7: {p: 0.0, i: 0.0, d: 0.00} #{p: 1.0, i: 0.0, d: 0.00}
+              joint_8: {p: 1.9, i: 0.0, d: 0.00} #P = 1.5
+
+      PI_gains:
+              joint_1: {p: 0.0, i: 0.0, d: 0.00}
+              joint_4: {p: 0.0, i: 0.0, d: 0.00}
+              joint_6: {p: 0.0, i: 0.0, d: 0.00}
+              joint_7: {p: 0.0, i: 0.0, d: 0.00} #{p: 1.0, i: 50.0, d: 0.00}
+              joint_8: {p: 2.5, i: 100.0, d: 0.00}
+
+      velocity_ff:
+              joint_1: 0.0
+              joint_4: 0.0
+              joint_6: 0.0
+              joint_7: 0.0 #1.8
+              joint_8: 1.0
+
+      acceleration_ff:
+              joint_1: 0.0
+              joint_4: 0.0
+              joint_6: 0.0
+              joint_7: 0.0
+              joint_8: 0.18 #0.5 #0.47
+
+
+  joint_state_controller:
+      type: joint_state_controller/JointStateController
+      publish_rate: 250 #does this affect sample of data?
+  controller:
+    position:
+      joint_1:
+        type: velocity_controllers/JointPositionController
+        joint: joint_1
+        pid: {p: 3.5, i: 1.0, d: 0.02, i_clamp_min: -0.1, i_clamp_max: 0.1, antiwindup: true}
+      joint_4:
+        type: velocity_controllers/JointPositionController
+        joint: joint_4
+        pid: {p: 3.2, i: 0.8, d: 0.07, i_clamp_min: -0.1, i_clamp_max: 0.1, antiwindup: true} 
+      joint_6:
+        type: velocity_controllers/JointPositionController
+        joint: joint_6
+        pid: {p: 2.5, i: 1.0, d: 0.07, i_clamp_min: -0.1, i_clamp_max: 0.1, antiwindup: true}
+      joint_7:
+        type: velocity_controllers/JointPositionController
+        joint: joint_7
+        pid: {p: 4.2, i: 0.8, d: 0.05, i_clamp_min: -0.1, i_clamp_max: 0.1, antiwindup: true}
+      joint_8:
+        type: velocity_controllers/JointPositionController
+        joint: joint_8
+        pid: {p: 3.5, i: 0.25, d: 0.05, i_clamp_min: -0.1, i_clamp_max: 0.1, antiwindup: true}
+

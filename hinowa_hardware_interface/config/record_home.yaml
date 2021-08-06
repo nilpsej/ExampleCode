@@ -1,0 +1,10 @@
+encoders: {joint_1: 0.791, joint_4: 224.35, joint_6: 303.45, joint_7: 0.033, joint_8: 274.05}
+rosdistro: 'melodic
+
+  '
+roslaunch:
+  uris: {host_192_168_1_104__40879: 'http://192.168.1.104:40879/'}
+rosversion: '1.14.9
+
+  '
+run_id: 2e6e08e4-1fdd-11eb-82e6-48b02d05b20c
